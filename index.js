@@ -59,6 +59,15 @@
   if (bowser.msie && parseFloat(bowser.version) < 11) {
     document.body.classList.add('tooltip-fallback');
   }
+window.addEventListener("message", function (event) {
+  if (event.data === "hideControls") {
+    const autorotateToggle = document.getElementById("autorotateToggle");
+    const titleBar = document.getElementById("titleBar");
+
+    if (autorotateToggle) autorotateToggle.style.display = "none";
+    if (titleBar) titleBar.style.display = "none";
+  }
+});
 
   // Viewer options.
   var viewerOpts = {
