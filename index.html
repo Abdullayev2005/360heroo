@@ -1,79 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Project Title</title>
-<meta charset="utf-8">
-<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
-<style> @-ms-viewport { width: device-width; } </style>
-<link rel="stylesheet" href="vendor/reset.min.css">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <title>BM Group 360 Tour</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+  <style>
+    #panorama {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .custom-image-hotspot {
+      width: auto;
+      height: auto;
+    }
+
+    .custom-link-button {
+      background-color: #ffffff;
+      color: #005bbb;
+      border: 1px solid #005bbb;
+      border-radius: 6px;
+      font-size: 13px;
+      padding: 6px 10px;
+      font-family: "Segoe UI", sans-serif;
+      display: inline-block;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInButton 0.5s ease-in forwards 2.5s;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+
+    .custom-link-button:hover {
+      background-color: #005bbb;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeInButton {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
-<body class="multiple-scenes ">
+<body>
 
-<div id="pano"></div>
+<div id="panorama"></div>
 
-<div id="sceneList">
-  <ul class="scenes">
-    
-      <a href="javascript:void(0)" class="scene" data-id="0-360tour">
-        <li class="text">360tour</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="1-360tour2">
-        <li class="text">360tour2</li>
-      </a>
-    
-      <a href="javascript:void(0)" class="scene" data-id="2-panorama">
-        <li class="text">panorama</li>
-      </a>
-    
-  </ul>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+<script>
+  pannellum.viewer('panorama', {
+    "type": "equirectangular",
+    "panorama": "360tour.jpg",
+    "autoLoad": true,
+    "showZoomCtrl": false,
+    "showFullscreenCtrl": false,
+    "showControls": false,
+    "hotSpots": [
+      {
+        "pitch": -15,
+        "yaw": 45,
+        "type": "custom",
+        "cssClass": "custom-image-hotspot",
+        createTooltipFunc: function(hotSpotDiv) {
+          const container = document.createElement("div");
+          container.style.display = "flex";
+          container.style.flexDirection = "row";
+          container.style.alignItems = "flex-start";
+          container.style.gap = "16px";
 
-<div id="titleBar">
-  <h1 class="sceneName"></h1>
-</div>
+          const img = document.createElement("img");
+          img.src = "model.png";
+          img.style.width = "260px";
+          img.style.height = "auto";
+          container.appendChild(img);
 
-<a href="javascript:void(0)" id="autorotateToggle">
-  <img class="icon off" src="img/play.png">
-  <img class="icon on" src="img/pause.png">
-</a>
+          const messageWrapper = document.createElement("div");
+          messageWrapper.style.display = "flex";
+          messageWrapper.style.flexDirection = "column";
+          messageWrapper.style.maxWidth = "280px";
 
-<a href="javascript:void(0)" id="fullscreenToggle">
-  <img class="icon off" src="img/fullscreen.png">
-  <img class="icon on" src="img/windowed.png">
-</a>
+          const message = document.createElement("div");
+          message.style.background = "#005bbb";
+          message.style.color = "#fff";
+          message.style.padding = "10px 16px";
+          message.style.borderRadius = "12px";
+          message.style.fontSize = "15px";
+          message.style.lineHeight = "1.6";
+          message.style.fontFamily = "Segoe UI, sans-serif";
+          message.style.textAlign = "left";
+          message.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
+          message.style.minHeight = "80px";
+          messageWrapper.appendChild(message);
 
-<a href="javascript:void(0)" id="sceneListToggle">
-  <img class="icon off" src="img/expand.png">
-  <img class="icon on" src="img/collapse.png">
-</a>
+          const button = document.createElement("div");
+          button.innerText = "Asosiy zalga oʻtish";
+          button.className = "custom-link-button";
+          button.onclick = function () {
+            window.location.href = "asosiy.html";
+          };
+          messageWrapper.appendChild(button);
 
-<a href="javascript:void(0)" id="viewUp" class="viewControlButton viewControlButton-1">
-  <img class="icon" src="img/up.png">
-</a>
-<a href="javascript:void(0)" id="viewDown" class="viewControlButton viewControlButton-2">
-  <img class="icon" src="img/down.png">
-</a>
-<a href="javascript:void(0)" id="viewLeft" class="viewControlButton viewControlButton-3">
-  <img class="icon" src="img/left.png">
-</a>
-<a href="javascript:void(0)" id="viewRight" class="viewControlButton viewControlButton-4">
-  <img class="icon" src="img/right.png">
-</a>
-<a href="javascript:void(0)" id="viewIn" class="viewControlButton viewControlButton-5">
-  <img class="icon" src="img/plus.png">
-</a>
-<a href="javascript:void(0)" id="viewOut" class="viewControlButton viewControlButton-6">
-  <img class="icon" src="img/minus.png">
-</a>
+          container.appendChild(messageWrapper);
+          hotSpotDiv.appendChild(container);
 
-<script src="vendor/screenfull.min.js" ></script>
-<script src="vendor/bowser.min.js" ></script>
-<script src="vendor/marzipano.js" ></script>
-
-<script src="data.js"></script>
-<script src="index.js"></script>
+          const fullText = "БМ Гроуп қурилиш компаниясига хуш келибсиз. Батафсил маълумот учун катта асосий залга ўтинг.";
+          let i = 0;
+          function typeWriter() {
+            if (i < fullText.length) {
+              message.innerHTML += fullText.charAt(i);
+              i++;
+              setTimeout(typeWriter, 35);
+            }
+          }
+          typeWriter();
+        }
+      }
+    ]
+  });
+</script>
 
 </body>
 </html>
